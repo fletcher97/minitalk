@@ -6,12 +6,16 @@
 /*   By: mgueifao <mgueifao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 18:17:56 by mgueifao          #+#    #+#             */
-/*   Updated: 2021/08/15 23:27:58 by mgueifao         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:57:10 by mgueifao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+// #define __USE_POSIX199309
+// #define __USE_POSIX
+
 #include <signal.h>
+
+#include <unistd.h>
 #include <stdlib.h>
 
 #include "ft_stdio.h"
@@ -31,7 +35,7 @@ static int	rlen(char v, int *len)
 	return (0);
 }
 
-static int	rchar(char v, int len, char **str)
+static int	rchar(char v, int *len, char **str)
 {
 	static char	*ret = NULL;
 	static char	*curr = NULL;
@@ -39,8 +43,8 @@ static int	rchar(char v, int len, char **str)
 
 	if (!ret)
 	{
-		ret = ft_calloc(sizeof(char), len + 1);
-		ret[len] = '\0';
+		ret = ft_calloc(sizeof(char), *len + 1);
+		ret[*len] = '\0';
 	}
 	if (!curr)
 		curr = ret;
@@ -49,12 +53,13 @@ static int	rchar(char v, int len, char **str)
 		curr++;
 	if (a == 8)
 		a = 0;
-	if (curr - ret == len)
+	if (curr - ret == *len)
 	{
 		*str = ret;
 		curr = NULL;
 		ret = NULL;
 		a = 0;
+		*len = 0;
 		return (0);
 	}
 	return (1);
@@ -70,7 +75,7 @@ void	proc(char v)
 	if (!r)
 		r = rlen(v, &len);
 	else
-		r = rchar(v, len, &ret);
+		r = rchar(v, &len, &ret);
 	if (ret)
 	{
 		ft_putstr_fd(ret, STDOUT);
@@ -92,11 +97,15 @@ void	hsu(int sig, siginfo_t *si, void *uc)
 int	main(void)
 {
 	struct sigaction	sa;
+	sigset_t			ss;
 
+	if (sigemptyset(&ss) == -1)
+		return (1);
 	ft_putnbr_fd(getpid(), STDOUT);
 	ft_putstr_fd("\n", STDOUT);
 	sa.sa_sigaction = hsu;
 	sa.sa_flags = SA_SIGINFO;
+	sa.sa_mask = ss;
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
 	while (1)
