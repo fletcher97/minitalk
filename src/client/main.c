@@ -51,7 +51,7 @@ int	main(int argc, char *argv[])
 {
 	int	pid;
 
-	if (argc != 3)
+	if (argc != 3 || !ft_strlen(argv[2]))
 		return (1);
 	if (!check_pid(argv[1]))
 		return (2);
