@@ -53,16 +53,14 @@ static int	rchar(char v, int *len, char **str)
 		curr++;
 	if (a == 8)
 		a = 0;
-	if (curr - ret == *len)
-	{
-		*str = ret;
-		curr = NULL;
-		ret = NULL;
-		a = 0;
-		*len = 0;
-		return (0);
-	}
-	return (1);
+	if (curr - ret != *len)
+		return (1);
+	*str = ret;
+	curr = NULL;
+	ret = NULL;
+	a = 0;
+	*len = 0;
+	return (0);
 }
 
 void	proc(char v)
