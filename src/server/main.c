@@ -6,7 +6,7 @@
 /*   By: mgueifao <mgueifao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/15 18:17:56 by mgueifao          #+#    #+#             */
-/*   Updated: 2021/08/15 23:57:10 by mgueifao         ###   ########.fr       */
+/*   Updated: 2021/08/19 18:41:59 by mgueifao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 
 #include "ft_stdio.h"
 #include "ft_stdlib.h"
+
+#include "server.h"
 
 static int	rlen(char v, int *len)
 {
@@ -44,6 +46,8 @@ static int	rchar(char v, int *len, char **str)
 	if (!ret)
 	{
 		ret = ft_calloc(sizeof(char), *len + 1);
+		if (!ret)
+			exit(1);
 		ret[*len] = '\0';
 	}
 	if (!curr)
@@ -56,10 +60,7 @@ static int	rchar(char v, int *len, char **str)
 	if (curr - ret != *len)
 		return (1);
 	*str = ret;
-	curr = NULL;
-	ret = NULL;
-	a = 0;
-	*len = 0;
+	reset_params(&ret, &curr, &a, len);
 	return (0);
 }
 
