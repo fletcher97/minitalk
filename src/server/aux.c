@@ -6,7 +6,7 @@
 /*   By: mgueifao <mgueifao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/19 18:30:47 by mgueifao          #+#    #+#             */
-/*   Updated: 2021/08/19 18:37:58 by mgueifao         ###   ########.fr       */
+/*   Updated: 2021/08/19 18:48:13 by mgueifao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 // 	ret = NULL;
 // 	a = 0;
 // 	*len = 0;
-void reset_params(char **ret, char **curr, int *a, int *len)
+void	reset_params(char **ret, char **curr, int *a, int *len)
 {
 	*ret = (void *) 0;
 	*curr = (void *) 0;
